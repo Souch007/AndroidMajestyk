@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_dashboard"
+    app:startDestination="@id/tasksFragment">
+
+    <fragment
+        android:id="@+id/tasksFragment"
+        app:defaultNavHost="true"
+        android:name="com.majestykapps.arch.presentation.tasks.fragments.TasksFragment"
+        >
+        <action
+            android:id="@+id/action_tasksFragment_to_tasksDetailFragment"
+            app:destination="@id/tasksDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/tasksDetailFragment"
+        android:name="com.majestykapps.arch.presentation.tasks.fragments.TasksDetailFragment"
+         >
+        <action
+            android:id="@+id/action_tasksDetailFragment_to_tasksFragment"
+            app:destination="@id/tasksFragment" />
+    </fragment>
+</navigation>
