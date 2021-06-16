@@ -26,6 +26,7 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), onTaskClickListner , Ma
 
     private val viewModel: TasksViewModel by activityViewModels()
     lateinit var linearLayoutManager: LinearLayoutManager
+    lateinit var allTasks: ArrayList<Task>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,9 +68,10 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), onTaskClickListner , Ma
             tasks.observe(viewLifecycleOwner, Observer { tasks ->
                 Log.d(TAG, "tasks observed: $tasks")
                 //text.text = tasks.toString()
-                if (!tasks.isNullOrEmpty()) {
+                allTasks = tasks as ArrayList<Task>;
+                if (!allTasks.isNullOrEmpty()) {
                     text.visibility = View.GONE
-                    populateTasks(tasks);
+                    populateTasks(allTasks);
                 } else if (!isNetworkAvailable(requireActivity())) {
                     text.visibility = View.VISIBLE
                     text.text = "No Internet Connection Available,\n Please Reconnect and Try Again"
@@ -90,7 +92,7 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), onTaskClickListner , Ma
             .show()
     }
 
-    private fun populateTasks(tasks: List<Task>) {
+    private fun populateTasks(tasks: ArrayList<Task>) {
         val taskListAdapter = TaskListAdapter(requireActivity(), tasks, this)
         rv_tasks_list.adapter = taskListAdapter
         rv_tasks_list.layoutManager = linearLayoutManager
@@ -116,14 +118,29 @@ class TasksFragment : Fragment(R.layout.fragment_tasks), onTaskClickListner , Ma
     }
 
     override fun onSearchStateChanged(enabled: Boolean) {
-
+        if(!enabled){
+            populateTasks(allTasks)
+        }
     }
 
     override fun onSearchConfirmed(text: CharSequence?) {
+        if(!text.toString().isNullOrEmpty()){
+            var tasks: ArrayList<Task>? = ArrayList()
+            for (i in 0 until allTasks.size) {
+                val task = allTasks.get(i);
+                if(task.title.toString().trim().matches(text.toString().trim().toRegex())){
+                    tasks!!.add(task)
+                    break
+                }
+                // body of loop
+            }
+            if(tasks!!.size>0)
+                populateTasks(tasks)
+        }
 
     }
 
     override fun onButtonClicked(buttonCode: Int) {
-
+buttonCode
     }
 }

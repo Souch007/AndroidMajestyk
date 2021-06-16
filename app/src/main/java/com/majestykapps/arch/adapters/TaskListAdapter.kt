@@ -13,7 +13,7 @@ import com.majestykapps.arch.databinding.RowTasksBindingImpl
 import com.majestykapps.arch.domain.entity.Task
 import com.majestykapps.arch.presentation.tasks.onTaskClickListner
 
-class TaskListAdapter(val mContext: Context, val mTaskList: List<Task>,val onTaskClickListner: onTaskClickListner) :
+class TaskListAdapter(val mContext: Context, val mTaskList: ArrayList<Task>,val onTaskClickListner: onTaskClickListner) :
     RecyclerView.Adapter<TaskViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = TaskViewHolder (
        DataBindingUtil.inflate<RowTasksBinding>(LayoutInflater.from(mContext),R.layout.row_tasks, parent, false)
